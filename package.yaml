@@ -1,0 +1,77 @@
+name:                k8s-volume-discovery
+version:             0.1.0.0
+github:              EarnestResearch/k8s-volume-discovery
+license:             MIT
+author:              Alessandro Marrella
+maintainer:          amarrella@earnestresearch.com
+copyright:           2019 Earnest Research
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+default-extensions:
+- OverloadedStrings
+- NoImplicitPrelude
+- TemplateHaskell
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on Github at <https://github.com/githubuser/k8s-volume-discovery#readme>
+
+dependencies:
+- base >= 4.11 && < 10
+- rio >= 0.1.8.0
+- rio-orphans >= 0.1.8.0
+- amazonka >= 1.6.1 && < 1.7
+- amazonka-core >= 1.6.1 && < 1.7
+- amazonka-ec2 >= 1.6.1 && < 1.7
+- kubernetes-client >= 0.1.0.1 && < 0.2
+- kubernetes-client-core >= 0.1.0.1 && < 0.2
+- foldl
+- http-client
+- microlens
+- containers
+
+ghc-options:
+- -Wall
+- -Wcompat
+- -Widentities
+- -Wincomplete-record-updates
+- -Wincomplete-uni-patterns
+- -Wpartial-fields
+- -Wredundant-constraints
+
+library:
+  source-dirs: src
+
+executables:
+  k8s-volume-discovery-exe:
+    main:                Main.hs
+    source-dirs:         app
+    dependencies:
+    - k8s-volume-discovery
+    - optparse-simple
+
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+
+tests:
+  k8s-volume-discovery-test:
+    main:                Spec.hs
+    source-dirs:         test
+    dependencies:
+    - k8s-volume-discovery
+    - hspec
+
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
