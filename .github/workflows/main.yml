@@ -13,9 +13,9 @@ jobs:
       uses: docker://earnestresearch/k8s-volume-discovery-dependencies:latest
       with:
         entrypoint: stack
-        args: build --fast --system-ghc --stack-root /root/.stack
+        args: build --fast --system-ghc --stack-root /root/.stack --allow-different-user
     - name: Test
       uses: docker://earnestresearch/k8s-volume-discovery-dependencies:latest
       with:
         entrypoint: stack 
-        args: test --fast --system-ghc --stack-root /root/.stack
+        args: test --fast --system-ghc --stack-root /root/.stack --allow-different-user
