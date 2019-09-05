@@ -12,12 +12,10 @@ jobs:
     - name: Build
       uses: docker://earnestresearch/k8s-volume-discovery-dependencies:latest
       with:
-        entrypoint: stack 
-        args: build --fast --system-ghc
-        github_workspace: /home/stackage/github
+        entrypoint: stack
+        args: build --fast --system-ghc --stack-root /root/.stack
     - name: Test
       uses: docker://earnestresearch/k8s-volume-discovery-dependencies:latest
       with:
         entrypoint: stack 
-        args: test --fast --system-ghc
-        github_workspace: /home/stackage/github
+        args: test --fast --system-ghc --stack-root /root/.stack
