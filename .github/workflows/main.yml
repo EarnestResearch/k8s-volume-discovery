@@ -1,0 +1,17 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build
+      uses: docker://earnestresearch/k8s-volume-discovery-dependencies:latest
+      run: stack build --fast --system-ghc
+    - name: Test
+      uses: docker://earnestresearch/k8s-volume-discovery-dependencies:latest
+      run: stack test --fast --system-ghc
