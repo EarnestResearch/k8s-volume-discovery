@@ -26,6 +26,21 @@ let container =
               , "${env:AWS_CLUSTER_NAME as Text}"
               , "-v"
               ]
+          , resources =
+            Some
+             { requests =
+              [
+                {  mapKey = "cpu"
+                ,  mapValue = "100m"
+                }
+              ]
+              , limits =
+              [
+                { mapKey = "cpu"
+                , mapValue  = "150m"
+                }
+              ]
+            }
           }
 
 let serviceAccount = ./serviceaccount.dhall
