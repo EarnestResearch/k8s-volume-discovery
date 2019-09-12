@@ -31,13 +31,13 @@ let container =
              { requests =
               [
                 {  mapKey = "cpu"
-                ,  mapValue = "100m"
+                ,  mapValue = "200m"
                 }
               ]
               , limits =
               [
                 { mapKey = "cpu"
-                , mapValue  = "150m"
+                , mapValue  = "300m"
                 }
               ]
             }
