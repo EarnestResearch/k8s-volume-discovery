@@ -22,8 +22,8 @@ let container =
               [ "./k8s-volume-discovery-exe"
               , "--masterURI"
               , "https://kubernetes.default.svc"
-              , "-n"
-              , "${env:AWS_CLUSTER_NAME as Text}"
+              , "--discovery-tag-key"
+              , "kubernetes.io/cluster/${env:AWS_CLUSTER_NAME as Text}"
               , "-v"
               ]
           , resources =

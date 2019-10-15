@@ -9,7 +9,8 @@ import Network.HTTP.Client
 -- | Command line arguments
 data Options = Options
   { optionsVerbose :: !Bool,
-    optionsClusterName :: !Text,
+    optionsDiscoveryTagKey :: !Text,
+    optionsDiscoveryTagValue :: !(Maybe Text),
     optionsMasterURI :: !Text,
     optionsDryRun :: !Bool
   }
@@ -19,10 +20,8 @@ data App = App
   , appProcessContext :: !ProcessContext
   , appOptions :: !Options
   , awsEnv :: !Env
-  , k8sClusterName :: !Text
   , k8sClientConfig :: !KubernetesClientConfig
   , k8sClientManager :: !Manager
-  , dryRun :: !Bool
   }
 
 instance HasLogFunc App where
@@ -33,11 +32,6 @@ instance HasProcessContext App where
 instance HasEnv App where
   environment = lens awsEnv (\x y -> x { awsEnv = y })
 
-class HasClusterName env where 
-  clusterNameL :: Lens' env Text
-instance HasClusterName App where
-  clusterNameL = lens k8sClusterName (\x y -> x { k8sClusterName = y})
-
 class HasK8S env where 
   k8sClientConfigL :: Lens' env KubernetesClientConfig
   k8sClientManagerL :: Lens' env Manager
@@ -45,10 +39,17 @@ instance HasK8S App where
   k8sClientConfigL = lens k8sClientConfig (\x y -> x { k8sClientConfig = y})
   k8sClientManagerL = lens k8sClientManager (\x y -> x { k8sClientManager = y})
 
-class HasDryRun env where 
+class HasOptions env where
+  optionsL :: Lens' env Options
   dryRunL :: Lens' env Bool
-instance HasDryRun App where
-  dryRunL = lens dryRun (\x y -> x { dryRun = y})
+  discoveryTagKeyL :: Lens' env Text
+  discoveryTagValueL :: Lens' env (Maybe Text)
+
+instance HasOptions App where
+  optionsL = lens appOptions (\x y -> x { appOptions = y})
+  dryRunL = optionsL . lens optionsDryRun (\x y -> x { optionsDryRun = y})
+  discoveryTagKeyL = optionsL . lens optionsDiscoveryTagKey (\x y -> x { optionsDiscoveryTagKey = y})
+  discoveryTagValueL = optionsL . lens optionsDiscoveryTagValue (\x y -> x { optionsDiscoveryTagValue = y})
 
 data Volume = Volume {
     ebsVolumeId :: !Text

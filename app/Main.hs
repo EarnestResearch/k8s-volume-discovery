@@ -20,10 +20,10 @@ main = do
                  <> short 'v'
                  <> help "Verbose output?"
                   )
-       <*> strOption ( long "clusterName"
-                 <> short 'n'
-                 <> help "Name of the cluster"
+       <*> strOption ( long "discovery-tag-key"
+                 <> help "Tag key to discover"
                   )
+       <*> option auto (long "discovery-tag-value" <> help "Tag value to discover")
        <*> strOption ( long "masterURI"
                  <> short 'u'
                  <> help "URI of the k8s master"
@@ -36,7 +36,6 @@ main = do
   lo <- logOptionsHandle stderr (optionsVerbose options)
   pc <- mkDefaultProcessContext
   env <- liftIO $ newEnv Discover
-  let cn = optionsClusterName options
   kC <- newConfig
     & fmap (setMasterURI (optionsMasterURI options))
   tlsParams <- defaultTLSClientParams & fmap disableServerCertValidation
@@ -47,10 +46,8 @@ main = do
           , appProcessContext = pc
           , appOptions = options
           , awsEnv = env
-          , k8sClusterName = cn
           , k8sClientConfig = kC
           , k8sClientManager = mgr
-          , dryRun = optionsDryRun options
           }
      in forever (runRIO app (withNewToken run) >> threadDelay 60000000)
 
