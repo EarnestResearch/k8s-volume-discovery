@@ -55,12 +55,18 @@ run = do
 
 getVolumes :: RIO App [Volume]
 getVolumes = do
-  cn <- view clusterNameL
+  k <- view discoveryTagKeyL
+  v <- view discoveryTagValueL 
+
   let 
+    tagFilter = 
+      maybe (AWS.filter' "tag-key" & AWS.fValues .~ [k])
+      (\x -> AWS.filter' ("tag:"<>k) & AWS.fValues .~ [x])
+      v
     filters = 
       [
-        AWS.filter' "tag-key" & AWS.fValues .~ ["kubernetes.io/cluster/"<>cn]
-      , AWS.filter' "status"  & AWS.fValues .~ ["available"]
+        tagFilter,
+        AWS.filter' "status"  & AWS.fValues .~ ["available"]
       ]
   awsResponse <- runResourceT $ send $ AWS.describeVolumes & AWS.desFilters .~ filters
   let 
