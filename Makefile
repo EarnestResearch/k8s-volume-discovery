@@ -1,5 +1,5 @@
 DOCKER_BASE_IMAGE?=earnestresearch/k8s-volume-discovery
-VERSION=0.2.0
+VERSION=0.2.1
 AWS_CLUSTER_NAME?=example
 DHALL_TO_YAML = @AWS_CLUSTER_NAME=$(AWS_CLUSTER_NAME) dhall-to-yaml --omitEmpty <<< ./k8s/app.dhall
 
