@@ -23,7 +23,7 @@ main = do
        <*> strOption ( long "discovery-tag-key"
                  <> help "Tag key to discover"
                   )
-       <*> option auto (long "discovery-tag-value" <> help "Tag value to discover")
+       <*> optional (strOption (long "discovery-tag-value" <> help "Tag value to discover"))
        <*> strOption ( long "masterURI"
                  <> short 'u'
                  <> help "URI of the k8s master"
