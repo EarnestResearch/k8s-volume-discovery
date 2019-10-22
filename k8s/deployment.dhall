@@ -17,7 +17,7 @@ let container =
               config.appName
           , image =
               Some
-              "earnestresearch/k8s-volume-discovery:0.1.0"
+              "earnestresearch/k8s-volume-discovery:0.2.1"
           , command =
               [ "./k8s-volume-discovery-exe"
               , "--masterURI"
